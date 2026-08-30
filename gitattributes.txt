@@ -1,0 +1,15 @@
+# .gitattributes — pompa-infuzyonu ve sinav-notlari depolarının KÖKÜNE konur.
+#
+# Amaç: Git'in dosya baytlarına dokunmamasını sağlamak.
+# Doğrulama yöntemimiz Drive nüshası ile yayın kopyasının SHA-256'sının
+# birebir eşit olmasına dayanıyor. Git satır sonlarını (LF <-> CRLF)
+# çevirirse içerik aynı kalır ama baytlar değişir ve SHA tutmaz; o zaman
+# gerçek bir bozulma ile zararsız bir çevirmeyi ayırt edemeyiz.
+#
+# 30.08.2026'da ölçüldü: şu anda hiçbir çevirme olmuyor, iki depodaki
+# index.html de Drive nüshasıyla bayt-birebir aynı. Bu dosya bir kusuru
+# kapatmıyor; yükleme yolu ileride değişirse (Windows'ta bir Git istemcisi,
+# sürükle-bırak yerine) doğrulama yönteminin kendiliğinden korunmasını
+# sağlıyor.
+
+* -text
