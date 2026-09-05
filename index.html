@@ -499,6 +499,27 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
 }
 @media print{ .tblwrap, .kgsar{ background-image:none } }
 
+
+/* ═══════════════ okuma v10 — dokunma hedefleri ═══════════════
+   05.09.2026. Ölçüt 14 "44 px altı denetim hedefi" için 3883/4270 bildiriyordu;
+   ölçüldü, sayı üç ayrı şeyi karıştırıyordu. 2512'si düzyazı içindeki ya da
+   akan bir listedeki bağlantıydı (a.kart-ref 1957 · .ll a 555) — onları 44 px
+   yapmak metni bozar ve WCAG 2.5.5'in kendi istisnası zaten muaf tutuyor.
+   Geriye 1371 gerçek denetim kaldı ve ikisi burada düzeltiliyor. */
+
+/* Kart araç çubuğu düğmeleri (872 adet) 40 px'teydi — hedefe dört piksel.
+   Standardın tam değerine sabitlendi; min-height belirlenimli ölçüldüğü için
+   eşik kararsızlığı (kayıt kütüğü 7) bu nüfusta doğmuyor. */
+@media screen{ .kart-ar button{ min-height:44px } }
+
+/* Dizin satırları (491 adet) 24 px'teydi. Kullanıcı kararı: 44 px yerine
+   36-40 px bandı — 44'e çıkarmak dizini iki katına yakın uzatıyordu, ki bu
+   okunabilirliğe hizmet eden bir tur içinde okunabilirliği bozardı.
+   7 px dikey dolgu ölçüldü: bağlantı yüksekliği 24 -> 38 px, belge boyu %1
+   uzuyor. Dolgu SATIRA değil BAĞLANTIYA veriliyor; dokunulan öge o.
+   @media screen ile sınırlandı: baskı kuralları .tl için ayrı dolgu yazıyor. */
+@media screen{ .tl a, .tl2 a{ padding:7px 0 } }
+
 /* ═══ zincir düzeltmeleri ═══ */
 /* 7 · Çalışma kaydı yedeği (28.08.2026). Dosya girdisi gizlenir, etiketi
    düğme gibi görünür; dokunma hedefi 40 px (Derleme Yönergesi §6.3). */
