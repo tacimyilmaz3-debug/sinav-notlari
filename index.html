@@ -521,6 +521,26 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
    @media screen ile sınırlandı: baskı kuralları .tl için ayrı dolgu yazıyor. */
 @media screen{ .tl a, .tl2 a{ padding:7px 0 } }
 
+/* ═══════════════ okuma v12 — eşik kararsızlığı ═══════════════
+   06.09.2026. Ölçüt 14 aynı belgede farklı tarayıcı yapılarında farklı cevap
+   veriyordu (okuma v8'de 3887 ve 3883). Sebep ölçüldü: hedeflerin bir kısmı
+   eşiğin tam dibinde duruyor ve yarım piksellik bir yerleşim farkı sayıyı
+   oynatıyor. Kayıt kütüğünde 7 numaralı karar "kapı 44'te mi kalsın 42'ye mi
+   insin" diye soruyordu.
+
+   Karar verilmedi; NÜFUS eşiğin dışına çıkarıldı. Ölçüldü, masaüstünde
+   42-44 px bandındaki 340 hedefin 339'u kenar çubuğu bağlantısıydı — iki
+   satıra saran kart başlıkları 42,3 ve 43,5 px'te duruyordu.
+
+   Dikey dolgu 3 px'ten 6 px'e çıktı. Tarandı:
+     3px  -> bantta 340 · çubuk 23 kpx
+     6px  -> bantta   1 · çubuk 27 kpx   <- seçilen
+     13px -> bantta   1 · çubuk 36 kpx (hepsi 44 üstü, ama %57 uzama)
+   13 px hepsini kapının üstüne alırdı; sorun o değildi. Kalan 284 bağlantı
+   30 px'te, yani kapının AÇIKÇA altında ve kararsız değil.
+   Kenar çubuğu telefonda görünmüyor; bu değişiklik yalnız masaüstünü ilgilendirir. */
+@media screen{ .sl a{ padding:6px 8px } }
+
 /* ═══ zincir düzeltmeleri ═══ */
 /* 7 · Çalışma kaydı yedeği (28.08.2026). Dosya girdisi gizlenir, etiketi
    düğme gibi görünür; dokunma hedefi 40 px (Derleme Yönergesi §6.3). */
