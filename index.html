@@ -1106,8 +1106,37 @@ body.suz-favori main>h2{opacity:.5}
     kenarla yüzey metnin İKİ YANINDAN da eşit taşar. 12 ölçüt 26'nın
     izinli kümesinde; 14 olsaydı ölçeğe yeni sapma eklerdi (kayıt 112). */
  details.cevap{border:0;border-radius:0;padding:10px 12px;
-  width:calc(100% + 24px);max-width:624px;margin-left:-12px;margin-right:-12px;
+  width:calc(100% + 24px);max-width:664px;margin-left:-12px;margin-right:-12px;
   border-top:1px solid var(--kart-cizgi);border-bottom:1px solid var(--kart-cizgi)}
+ /* Satır ölçüsü kapağı 600 → 620 (kullanıcı bildirimi 06.09: "tablo güzel
+    dolduruyor, metin de aynı genişlikte olsun"). Kapağın TAMAMEN kalkması
+    ölçüt 6'yı düşürürdü (kapaksız 79, bant 62-75).
+
+    Kapak ARACIN KENDİSİYLE tarandı — benim ayrı ölçüm betiğim her değerde
+    1 karakter DÜŞÜK okuyordu (nüfusu farklı: araç tablo, gezinme, altbilgi,
+    künye ve altyazıyı dışlıyor). Aracın sayıları:
+      600 → 70 · 610 → 71 · 620 → 72 · 630 → 74 · 640 → 75    (bant 62-75)
+    640 bandın TAM SINIRI, payı sıfır; 630'un payı 1 karakter. İkisi de
+    alınmadı: kayıt 83 tam bunun adını koyuyor — eşiğe pay bırakmadan
+    yığılmak ölçütü geçmek değil, geçmiş GİBİ görünmektir. 620 seçildi,
+    payı 3 karakter.
+
+    ~1000 px'te kart zaten 620-630 dolayında olduğu için kapak orada
+    neredeyse hiç bağlamıyor; boşluk 30 px'ten ~10 px'e iniyor. 1280 px'te
+    113 → 93 px. Tam kapanması ölçüt 6'nın bandını değiştirmeyi gerektirir,
+    o da SÖZLEŞME sürümüdür (damga ve iki belge yeniden yayın).
+    Değer TEK YERDE duruyor: `stil.css`'in `--olcu` değişkeni. `main p` ile
+    ezmeye çalışmak işe yaramadı — kapak `main section.kart>p` gibi daha özgül
+    bir seçiciden geliyor ve o seçici stil.css'te ölçülerek yazılmış. Doğrusu
+    değişkeni değiştirmek: aynı sayının iki üreticisi olmaz (kayıt 18).
+    `ul`/`ol` bugüne dek HİÇ kapaklı değildi (713 px'e gidiyordu) — yani
+    düzyazı 600'de, liste 713'te bitiyordu ve aradaki raggedlik hep vardı.
+    Onlar da aynı değişkene bağlandı. Ölçüt 6 yalnız `p` ölçüyor, yani liste
+    genişliği bugüne dek ölçülmeyen bir boşluktu.
+    Tablolar kapsam DIŞINDA: tablo düzyazı değil, veri; genişlik işine yarar. */
+ :root{--olcu:620px}
+ main section.kart>ul,main section.kart>ol,
+ main section.dosya>ul,main section.dosya>ol{max-width:var(--olcu)}
  details.cevap>.cevap-govde{border-left:0;padding-left:0}
 }
 
