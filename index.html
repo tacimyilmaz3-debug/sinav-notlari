@@ -1069,6 +1069,60 @@ body.suz-favori main>h2{opacity:.5}
    gizleme, kırpılmış bir ölçüm gibidir (ÇB §16.1). */
 .gac .gsay{color:var(--uyari);font-weight:700}
 
+/* ═══ 601 px ve üstü: kart kutusu çizgiye döner ═══
+   Kullanıcı kararı (06.09.2026): "telefon biçimini beğendim, tablet ve
+   masaüstünü de ona benzet." Telefonda kayıt 108 ile yapılan iş yukarı
+   taşınıyor. ÜÇ ŞEYE BİLEREK DOKUNULMUYOR:
+
+   1) Satır ölçüsü kapağı (`max-width:600px`). Ölçüt 6 masaüstünde 62-75
+      karakter istiyor ve şu an 69 ölçülüyor. Kapak kalkarsa 834 px'te
+      metin 802 px'e yayılır ve ölçü ~92 karaktere çıkar: ölçüt DÜŞER.
+      Yani buradaki kazanç yatay değil, kutunun kendisi.
+   2) `max-width:736px`. Kalksaydı 575 tablo kabıyla birlikte genişler ve
+      yapışkan ilk sütun ölçümleri (ölçüt 35) yeniden açılırdı.
+   3) Cevap bloğunun kendi yüzeyi. Telefonda da duruyor; kalkarsa cevapla
+      gövde metni ayırt edilemez.
+
+   Tam genişliğe taşırma (negatif kenar) telefonda `main`'in 16 px'ine
+   dayanıyor. 601 px üstünde `main`'in dolgusu genişliğe göre değişiyor
+   (16 → 42) ve iki ayrı sayıya bağlanmak aynı değerin iki üreticisini
+   doğururdu (kayıt 18). Burada taşırma YOK; yalnız kutu kalkıyor. */
+@media(min-width:601px){
+ section.kart{background:none;border:0;border-radius:0;
+  padding:0;margin:32px auto 0}
+ section.kart::before{content:"";display:block;height:0;
+  border-top:1px solid var(--kart-cizgi);margin:0 0 24px}
+ section.dosya>section.kart:first-of-type::before{border-top:0;margin-top:0}
+ /* Kartın yüzeyi kalkınca içindeki tablo da sayfa rengine döner; yapışkan
+    ilk sütun MAT kalmalı, saydam olursa altından metin geçer (kayıt 88). */
+ section.kart{--tablo-zemin:var(--bg);--serit:var(--line2)}
+ details.cevap{border:0;border-radius:0;padding:10px 14px;
+  border-top:1px solid var(--kart-cizgi);border-bottom:1px solid var(--kart-cizgi)}
+ details.cevap>.cevap-govde{border-left:0;padding-left:0}
+}
+
+/* ═══ Gezinme listesinde satır yoğunluğu ═══
+   Kullanıcı kararı (06.09.2026): "içindekiler listesinde satırlar arasında
+   fazla boşluk var, azaltalım." Ölçüldü: `.sl a` dolgusu 12/12, satır
+   yüksekliği 1.42, `min-height:44px` → tek satırlık girdi 44 px, iki
+   satırlık 61 px; kenar çubuğunun tamamı 17.949 px.
+
+   BEDELİ AÇIK YAZILIYOR: 44 px WCAG 2.5.5'in dokunma hedefi. Bu blok onu
+   34 px'e indiriyor. ÖLÇÜLDÜ: girdiler ölçüt 14'ün `hedefKucukYan`
+   kovasına düşüyor (masaüstünde 0 → 191, çekmecede 0 → 278) — o kova
+   "kenar çubuğu satırları" diye tanımlı ve kapı ona BAKMIYOR; kapı yalnız
+   `hedefKucukGercek`'e bakar ve o altı kipin altısında 0'da kaldı.
+   Sessiz bir sapma değil: sayı her turda adıyla raporlanıyor (ÇB §16.1).
+
+   Ölçek uyumu: `margin` değerleri ölçüt 26'nın izinli kümesinden seçildi
+   (32 ve 24). İlk denemede 30/22 yazılmıştı ve rapor `kenarDisi` altında
+   yeni bir `30: 218` girdisi açtı — kapı kipi T k A olduğu için kapı
+   düşmüyordu ama ölçeğe yeni bir sapma eklemek kuralı kendi içinde
+   çürütürdü. */
+.sl a{padding:8px 8px;min-height:34px;line-height:1.32}
+.sl.kpart{margin:10px 0 3px}
+.sl.kfile a{margin-top:2px}
+
 </style></head>
 <body>
 
