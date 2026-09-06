@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-bicim="b015" data-surum="2026-08-07-05"><head><script>window.EX_SURUM="2026-08-07-05";</script><meta charset="utf-8"/>
+<html lang="tr" data-bicim="b017" data-surum="2026-08-07-05"><head><script>window.EX_SURUM="2026-08-07-05";</script><meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="noindex,nofollow" name="robots"/>
 <title>Sınav Çalışma Notları — Dr. Tacim YILMAZ — Okuma Sürümü (2026-08-10)</title>
@@ -603,6 +603,21 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
    Standardın tam değerine sabitlendi; min-height belirlenimli ölçüldüğü için
    eşik kararsızlığı (kayıt kütüğü 7) bu nüfusta doğmuyor. */
 @media screen{ .kart-ar button{ min-height:44px } }
+/* Araç panelinin ve hesap kartının denetimleri de 44 px'e çekildi (06.09.2026).
+   Ölçüt 14 telefonda 417 diyordu ve kapısı 0'dı; sayının 409'u kullanıcı kararıyla
+   38 px'e çekilen dizin satırıydı (kabul edilmiş sapma), yani GERÇEK denetimler
+   o sayının altında gömülüydü. Üstelik ölçüm paneli KAPALI yapıyordu ve
+   #araclar kapalıyken display:none — panelin 24 düğmesi hiç ölçülmemişti.
+   Panel açıkken ölçülünce gerçek sayı 8 değil 31 çıktı: 7 hesap alanı 40 px,
+   kalanı 24-34 px arası panel düğmeleri. Panel yüksekliği zaten 86vh ile
+   sınırlı ve kendi içinde kayıyor, yani büyüme taşma üretmiyor.
+   Gizli dosya tetikleyicisi (1×1 input[type=file]) dışarıda: kendi düğmesi var. */
+@media screen{
+ #araclar button, #araclar select, #araclar input:not([type=file]),
+ #arBtn, #tocBtn{ min-height:44px }
+ /* Hesap alanları burada DEĞİL: değerleri bicim.py'nin biçem bloğunda üretiliyor
+    ve o blok bundan sonra geldiği için buraya yazılan kural ölü kalırdı. */
+}
 
 /* Dizin satırları (491 adet) 24 px'teydi. Kullanıcı kararı: 44 px yerine
    36-40 px bandı — 44'e çıkarmak dizini iki katına yakın uzatıyordu, ki bu
@@ -773,7 +788,11 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
 /* min-width:0 ve width:100% olmadan <input> kendi öntanımlı genişliğini
    dayatıyor ve dar ekranda her alan ayrı satıra düşüyor (390 pikselde
    ölçüldü). Bu ikisiyle satır başına iki alan sığıyor. */
-.hkutu input,.hkutu select{font:inherit;font-size:.95rem;padding:7px 9px;min-height:38px;
+/* min-height 38 -> 44 (06.09.2026). Yedi hesap alanı 40 px ölçülüyordu, yani
+   ölçüt 14'ün eşiğinin 4 px altında. Değer BURADA değiştirildi çünkü burası
+   üretildiği yer: stil.css'e yazılan aynı seçicili kural bu bloktan ÖNCE
+   geldiği için hiç uygulanmadı (kayıt 86, üçüncü kez). */
+.hkutu input,.hkutu select{font:inherit;font-size:.95rem;padding:7px 9px;min-height:44px;
  border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);
  -webkit-appearance:none;appearance:none;text-transform:none;letter-spacing:0;
  width:100%;box-sizing:border-box}
