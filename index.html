@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr"><head><script>window.EX_SURUM="2026-08-07-05";</script><meta charset="utf-8"/>
+<html lang="tr" data-bicim="b010" data-surum="2026-08-07-05"><head><script>window.EX_SURUM="2026-08-07-05";</script><meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Sınav Çalışma Notları — Dr. Tacim YILMAZ — Okuma Sürümü (2026-08-10)</title>
 <style>
@@ -468,9 +468,23 @@ main blockquote > p{ max-width:var(--olcu) }
 /* SATIR YÜKSEKLİĞİ. Ölçüt 41 yoğun çizelgede gövde satırı için ≥34 px istiyor;
    ölçüldü, ortanca 33 px ile bir tık altındaydı. Dolgu ve satır yüksekliği
    tarandı: 6px/1.45 → 33 · 7px/1.5 → 36 · 8px/1.5 → 38.
-   NOT: en kısa satır (29 px) bundan ETKİLENMİYOR; o satırlar kilo matrisine
-   (table.kgtab) ait ve orada yoğunluk bilerek seçilmiş — yedi sütunlu bir
-   ızgarayı seyreltmek telefonda okunmaz hale getirir. Ayrı bir konu. */
+   NOT (01.09.2026): en kısa satır (29 px) bundan ETKİLENMİYOR; o satırlar kilo
+   matrisine (table.kgtab) ait. O gün "yoğunluk bilerek seçilmiş, seyreltmek
+   telefonda okunmaz hale getirir" diye bırakılmıştı.
+
+   DÜZELTME (06.09.2026): o gerekçe iki ayrı şeyi karıştırıyordu. Seyreltmek
+   SÜTUN kaldırmak demek; satır YÜKSEKLİĞİNİ artırmak hiçbir veriyi kaldırmıyor
+   ve tablonun genişliğine dokunmuyor — çünkü yalnız DİKEY dolgu değişiyor.
+   Ölçüldü: 34 px altındaki 96 satırın 96'sı table.kgtab, kalan 4050 satır
+   zaten ≥37 px. Dikey dolgu tarandı (390x844, kartlar açık):
+     5px (eski) -> en az 29 · ortanca 31 · 34 altı 96
+     7px        -> en az 33 · ortanca 35 · 34 altı 15
+     8px        -> en az 35 · ortanca 37 · 34 altı  0   <- seçilen
+     9px        -> en az 37 · ortanca 39 · 34 altı  0
+   Dört değerde de tablo genişliği 423 px ve taşan tablo 13 — yani genişlik
+   bedeli SIFIR. Belge 1.095.502 px'ten 1.096.078 px'e çıkıyor: %0,05.
+   Yatay dolgu 6 px'te BIRAKILDI; aşağıdaki nota bakın, yatayı büyütmek ilk
+   sütun sapmasını kötüleştiriyor. */
 td,th{ padding:8px 10px; line-height:1.5 }
 /* YATAY dolgu bilerek 10 px'te BIRAKILDI. Önce 11 px denendi ve ölçüldü:
    satır yüksekliği düzeldi ama tablolar genişlediği için yana kayan kapta
@@ -562,6 +576,54 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
      karanlik  --muted #a2acb9->#adb6c1 · --accent #7babff->#8cb6ff
                --uyari #ff8f8f->#ff9898
    --tez ve --sayi karanlıkta zaten yeterliydi (7,16 / 7,98); dokunulmadı. */
+
+
+/* ═══════════════ okuma v14 — ölçüt 41 ═══════════════
+   Kilo matrisinde gövde satırı 34 px'in altındaydı. Yalnız DİKEY dolgu
+   5px -> 8px; yatay 6 px'te duruyor (genişlik ve ilk sütun sapması korunsun).
+   Kural BURAYA YAZILMADI: aynı seçici bicim.py'nin kendi biçem bloğunda da var
+   ve o blok stil.css'ten SONRA geliyor, yani buradaki kopya hiç kazanmıyordu.
+   Tarayıcıya soruldu, iki kural da eşleşiyordu ve sonuncusu uygulanıyordu.
+   Değer kaynağında değiştirildi: bicim.py, .kgblok table.kgtab td/th.
+   Aynı değerin iki üreticisi olmaz. */
+
+
+/* ═══════════════ okuma v15 — ölçüt 35: yapışkan ilk sütun ═══════════════
+   06.09.2026. Yana kayan çizelgeyi sonuna kadar kaydırınca satır etiketi
+   ekrandan çıkıyordu: sapma -197 px, 40 kabın 40'ında. 90-100 kg sütununa
+   bakarken hangi dozda olduğunuz görünmüyordu.
+
+   Kılavuz §19 tarifi hazırdı ama ÖN KOŞULU okumada tutmuyordu. Tarif
+   "hücrelerde yalnız border-bottom kullanıldığı sürece görünüm değişmez"
+   diyor; ölçüldü, okumanın hücrelerinde kenarlık DÖRT tarafta da var
+   (1px/1px/1px/1px). border-collapse:separate'e geçmek komşu kenarlıkları
+   ikiye katlar — 575 tabloda gerçek bir görünüm bozulması.
+
+   Telafi ölçülerek kuruldu: hücrelerden üst ve sol kenarlık kaldırıldı
+   (komşunun alt/sağ kenarlığı zaten çizgiyi veriyor), tablonun kendisine
+   dış üst ve sol kenarlık verildi. Ölçüldü, TABANLA BİREBİR AYNI:
+     tblwrap sütunları [225,132] · satır 97 px
+     kgtab   sütunları [119,49,49,49,49,49,57] · satır 35 px
+     belge boyu 1.096.078 px
+   Sapma -197 -> -1 px, 40 kabın 40'ı tutuyor.
+
+   Satırlar ŞERİTLİ (215 satırın 102'si mat, 113'ü saydam). Yapışkan hücreye
+   SABİT zemin vermek şeritlemeyi bozardı; onun yerine satır mat yapıldı ve
+   hücre zemini satırdan MİRAS ALIYOR. Ölçüldü: saydam kalan yapışkan hücre 0.
+
+   border-collapse değeri kgtab için BURADA DEĞİL bicim.py'de: aynı seçicili
+   kuralı orası daha sonra yazıyor ve buradaki kaybediyordu (ölçüt 41'de aynı
+   tuzağa düşülmüştü). Aynı değerin iki üreticisi olmaz. */
+.tblwrap > table, .kgsar > table{
+  border-collapse:separate; border-spacing:0;
+  border-top:1px solid var(--line); border-left:1px solid var(--line) }
+.tblwrap > table td, .tblwrap > table th,
+.kgsar > table td,   .kgsar > table th{ border-top:0; border-left:0 }
+.tblwrap > table tbody tr, .kgsar > table tbody tr{ background-color:var(--bg) }
+.tblwrap > table tbody tr > :first-child,
+.kgsar > table tbody tr > :first-child{
+  position:sticky; left:0; z-index:2; background:inherit;
+  box-shadow:1px 0 0 var(--line) }
 
 /* ═══ zincir düzeltmeleri ═══ */
 /* 7 · Çalışma kaydı yedeği (28.08.2026). Dosya girdisi gizlenir, etiketi
@@ -799,9 +861,9 @@ details.kgblok>summary .kg-alt{color:var(--muted);font-size:.8em;
  text-transform:uppercase;letter-spacing:.05em}
 .kgblok .kg-not{padding:0 13px 10px;color:var(--muted);font-size:.86em;line-height:1.55}
 .kgblok .kgsar{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 13px 12px}
-.kgblok table.kgtab{width:100%;border-collapse:collapse;font-size:.8em;
+.kgblok table.kgtab{width:100%;border-collapse:separate;border-spacing:0;font-size:.8em;
  font-variant-numeric:tabular-nums}
-.kgblok table.kgtab td,.kgblok table.kgtab th{padding:5px 6px;text-align:left;
+.kgblok table.kgtab td,.kgblok table.kgtab th{padding:8px 6px;text-align:left;
  border-bottom:1px solid var(--line);white-space:nowrap}
 .kgblok table.kgtab td.n,.kgblok table.kgtab th.n{text-align:right}
 .kgblok table.kgtab tr.sec th{background:var(--kod,rgba(127,127,127,.10));
