@@ -30472,69 +30472,7 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
 <hr />
 </section>
 </main></div>
-<button id="toTop" title="Başa dön">↑</button><script>(function(){
- var side=document.getElementById('side'),btn=document.getElementById('tocBtn'),ara=document.getElementById('ara');
- btn&&btn.addEventListener('click',function(){side.classList.toggle('acik')});
- var tk=document.getElementById('tocKapat');
- tk&&tk.addEventListener('click',function(){side.classList.remove('acik');});
- side&&side.addEventListener('click',function(e){
-  if(e.target.tagName==='A'&&window.innerWidth<=900)side.classList.remove('acik')});
- var tt=document.getElementById('toTop');
- window.addEventListener('scroll',function(){tt.style.display=window.scrollY>600?'block':'none'},{passive:true});
- tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
- var rows=[].slice.call(document.querySelectorAll('#sidelist .sl'));
- ara&&ara.addEventListener('input',function(){
-  var q=this.value.trim().toLocaleLowerCase('tr');
-  if(!q){rows.forEach(function(r){r.classList.remove('gizli')});return;}
-  rows.forEach(function(r){
-   var t=r.textContent.toLocaleLowerCase('tr');
-   r.classList.toggle('gizli',t.indexOf(q)===-1&&!r.classList.contains('kpart'));});
- });
-})();
-</script><script>
-(function(){
- var side=document.getElementById('side'),liste=document.getElementById('sidelist');
- if(!side||!liste)return;
- var baglar={},sira=[];
- [].forEach.call(liste.querySelectorAll('a[href^="#"]'),function(a){
-   var id=decodeURIComponent(a.getAttribute('href').slice(1));
-   if(!baglar[id])baglar[id]=a;
- });
- [].forEach.call(document.querySelectorAll('main h1[id],main h2[id],main h3[id]'),function(h){
-   if(baglar[h.id])sira.push(h);
- });
- if(!sira.length)return;
- var etkin=null,bekle=false;
- function guncelle(){
-   bekle=false;
-   var y=70,secili=sira[0];
-   for(var i=0;i<sira.length;i++){
-     if(sira[i].getBoundingClientRect().top<=y)secili=sira[i];else break;
-   }
-   var a=baglar[secili.id];
-   if(a===etkin)return;
-   if(etkin)etkin.classList.remove('aktif');
-   a.classList.add('aktif');
-   etkin=a;
-   if(window.innerWidth>900)gorunur(false);
- }
- function gorunur(ortala){
-   if(!etkin||etkin.parentNode.classList.contains('gizli'))return;
-   var k=side.getBoundingClientRect(),e=etkin.getBoundingClientRect();
-   if(ortala||e.top<k.top+40||e.bottom>k.bottom-40){
-     side.scrollTop+=(e.top-k.top)-(side.clientHeight/2-e.height/2);
-   }
- }
- window.addEventListener('scroll',function(){
-   if(!bekle){bekle=true;requestAnimationFrame(guncelle);}
- },{passive:true});
- var btn=document.getElementById('tocBtn');
- btn&&btn.addEventListener('click',function(){
-   if(side.classList.contains('acik'))requestAnimationFrame(function(){gorunur(true);});
- });
- guncelle();
-})();
-</script><button id="arBtn" title="Çalışma araçları" type="button">Araçlar</button>
+<button id="toTop" title="Başa dön">↑</button><button id="arBtn" title="Çalışma araçları" type="button">Araçlar</button>
 <div id="arPerde"></div>
 <div aria-label="Çalışma araçları" id="araclar" role="dialog">
 <div class="ar-ust"><b>Çalışma araçları</b><span class="ar-ust-sag">
@@ -30600,7 +30538,79 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
 <textarea id="disaMetin" readonly=""></textarea>
 <div class="ar-sat"><button id="disaKopya" type="button">Kopyala</button></div>
 </div></div>
-<script>
+<button id="geriBtn" title="Köprüden önceki yere dön" type="button">← geri</button>
+<div id="desteBar"><span id="desteSay"></span>
+<button id="desteSonraki" type="button">Sonraki</button>
+<button id="desteBitir" type="button">Bitir</button></div>
+<div id="yerBar"><span id="yerMetin"></span>
+<button id="yerBasa" type="button">En başa</button>
+<button id="yerKapat" type="button">✕</button></div>
+<div id="ksBalon"></div>
+<script>(function(){
+ var side=document.getElementById('side'),btn=document.getElementById('tocBtn'),ara=document.getElementById('ara');
+ btn&&btn.addEventListener('click',function(){side.classList.toggle('acik')});
+ var tk=document.getElementById('tocKapat');
+ tk&&tk.addEventListener('click',function(){side.classList.remove('acik');});
+ side&&side.addEventListener('click',function(e){
+  if(e.target.tagName==='A'&&window.innerWidth<=900)side.classList.remove('acik')});
+ var tt=document.getElementById('toTop');
+ window.addEventListener('scroll',function(){tt.style.display=window.scrollY>600?'block':'none'},{passive:true});
+ tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+ var rows=[].slice.call(document.querySelectorAll('#sidelist .sl'));
+ ara&&ara.addEventListener('input',function(){
+  var q=this.value.trim().toLocaleLowerCase('tr');
+  if(!q){rows.forEach(function(r){r.classList.remove('gizli')});return;}
+  rows.forEach(function(r){
+   var t=r.textContent.toLocaleLowerCase('tr');
+   r.classList.toggle('gizli',t.indexOf(q)===-1&&!r.classList.contains('kpart'));});
+ });
+})();
+
+
+(function(){
+ var side=document.getElementById('side'),liste=document.getElementById('sidelist');
+ if(!side||!liste)return;
+ var baglar={},sira=[];
+ [].forEach.call(liste.querySelectorAll('a[href^="#"]'),function(a){
+   var id=decodeURIComponent(a.getAttribute('href').slice(1));
+   if(!baglar[id])baglar[id]=a;
+ });
+ [].forEach.call(document.querySelectorAll('main h1[id],main h2[id],main h3[id]'),function(h){
+   if(baglar[h.id])sira.push(h);
+ });
+ if(!sira.length)return;
+ var etkin=null,bekle=false;
+ function guncelle(){
+   bekle=false;
+   var y=70,secili=sira[0];
+   for(var i=0;i<sira.length;i++){
+     if(sira[i].getBoundingClientRect().top<=y)secili=sira[i];else break;
+   }
+   var a=baglar[secili.id];
+   if(a===etkin)return;
+   if(etkin)etkin.classList.remove('aktif');
+   a.classList.add('aktif');
+   etkin=a;
+   if(window.innerWidth>900)gorunur(false);
+ }
+ function gorunur(ortala){
+   if(!etkin||etkin.parentNode.classList.contains('gizli'))return;
+   var k=side.getBoundingClientRect(),e=etkin.getBoundingClientRect();
+   if(ortala||e.top<k.top+40||e.bottom>k.bottom-40){
+     side.scrollTop+=(e.top-k.top)-(side.clientHeight/2-e.height/2);
+   }
+ }
+ window.addEventListener('scroll',function(){
+   if(!bekle){bekle=true;requestAnimationFrame(guncelle);}
+ },{passive:true});
+ var btn=document.getElementById('tocBtn');
+ btn&&btn.addEventListener('click',function(){
+   if(side.classList.contains('acik'))requestAnimationFrame(function(){gorunur(true);});
+ });
+ guncelle();
+})();
+
+
 (function(){
  var TIP={B:'Bilgi eksik: hiç bilmiyordum',S:'Sayı hatası: eşik veya değer yanlış',
   Y:'Yapı hatası: biliyordum ama dağınık anlattım',G:'Güncellik: eski kılavuzu söyledim',
@@ -30843,14 +30853,8 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
    }};
  bayatla();sayilariYaz();
 })();
-</script><button id="geriBtn" title="Köprüden önceki yere dön" type="button">← geri</button>
-<div id="desteBar"><span id="desteSay"></span>
-<button id="desteSonraki" type="button">Sonraki</button>
-<button id="desteBitir" type="button">Bitir</button></div>
-<div id="yerBar"><span id="yerMetin"></span>
-<button id="yerBasa" type="button">En başa</button>
-<button id="yerKapat" type="button">✕</button></div>
-<div id="ksBalon"></div><script>
+
+
 (function(){
  var d=document;
  function oku(a){try{return JSON.parse(localStorage.getItem(a));}catch(e){return null;}}
@@ -31079,7 +31083,8 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
  if(ys)ys.addEventListener('click',function(){bi=VARSAYILAN;boyUygula();});
  d.body.style.fontSize=boy[bi]+'px';
 })();
-</script><script>
+
+
 (function(){
  var d=document.getElementById('nasilDet');
  if(!d)return;
@@ -31090,7 +31095,8 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
    try{localStorage.setItem(k,d.open?'1':'0');}catch(e){}
  });
 })();
-</script><script>
+
+
 (function(){
  var d=document;
  d.querySelectorAll('details.katlanir').forEach(function(x){
@@ -31124,8 +31130,8 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
    });
  }catch(e){}
 })();
-</script>
-<script>
+
+
 /* ——— zincir eki (28.08.2026): çalışma kaydı yedeği ——— */
 (function(){
  var d=document, AL=d.getElementById('yedekAl'), DS=d.getElementById('yedekDosya'),
