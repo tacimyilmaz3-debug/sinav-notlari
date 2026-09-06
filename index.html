@@ -1140,6 +1140,43 @@ body.suz-favori main>h2{opacity:.5}
  details.cevap>.cevap-govde{border-left:0;padding-left:0}
 }
 
+/* ═══ Geniş ekran: boş duran yeri TABLOLARA ver ═══
+   Kullanıcı isteği (06.09.2026): "1440 ve 2160 px'i de ölç, uygula."
+   Ölçüldü ve beklenmedik çıktı: 1280 px'in ÖTESİNDE hiçbir şey büyümüyordu.
+   `div.wrap` 1240, `main` 797, kart ve tablo 713 px'te sabitti; değişen tek
+   şey yan boşluktu — 1280'de 20+20, 1440'ta 100+100, 2160'ta <strong>460+460</strong>,
+   yani 2160 px'lik ekranın %43'ü kullanılmıyordu.
+
+   Yeri kime vereceğimiz ölçülerek seçildi. Tabloların 713 px'te SIKIŞIK
+   olduğu sayıldı — hücre metni kaç satıra sarıyor:
+     kart  713 → 3749/11127 hücre sarıyor (%33,7), 575 tablonun 293'ü
+     kart  900 → %21,3  ·  1040 → %14,2  ·  1200 → %8,3  ·  1340 → %4,9
+     tabloların toplam yüksekliği 217.133 → 184.730 px (%15 kısalıyor)
+   Yani her üç tablo hücresinden biri ikinci satıra sarıyordu; doz satırını
+   tek bakışta okumayı zorlaştıran şey buydu.
+
+   DÜZYAZI BÜYÜMÜYOR. `--olcu` 620 px'te kalıyor; ölçüt 6'nın ölçtüğü sayı
+   (M a A = 1280 px) HİÇ DEĞİŞMİYOR, çünkü bu blok 1400 px'ten başlıyor.
+   Eşik önce 1441 yazılmıştı ve kullanıcının istediği 1440 px'i DIŞARIDA
+   bırakıyordu; ölçüm bunu yakaladı (kayıt 115).
+
+   UYARI — DENETİM BU BLOĞU GÖRMÜYOR. `denetim_bicim.py` 390, 834 ve 1280
+   px'te ölçüyor; 1400 ve üstünde hiçbir kipi yok. Bu blok elle ölçüldü ve
+   sayıları buraya yazıldı; hiçbir kapı ona bakmıyor (kayıt 115). */
+@media(min-width:1400px){
+ /* Kapak viewport'tan genişse `margin:auto` pay bırakmıyor: 1440 px'te
+    içerik ekranın iki kenarına YAPIŞIYORDU (ölçüldü: yan boşluk 0+0).
+    Pay artık kapağın artığından değil, gerçek bir dolgudan geliyor. */
+ div.wrap{max-width:1560px;padding-left:24px;padding-right:24px}
+ main{max-width:1180px}
+ section.kart{max-width:1120px}
+}
+@media(min-width:1921px){
+ div.wrap{max-width:1880px;padding-left:32px;padding-right:32px}
+ main{max-width:1500px}
+ section.kart{max-width:1440px}
+}
+
 /* ═══ Gezinme listesinde satır yoğunluğu ═══
    Kullanıcı kararı (06.09.2026): "içindekiler listesinde satırlar arasında
    fazla boşluk var, azaltalım." Ölçüldü: `.sl a` dolgusu 12/12, satır
