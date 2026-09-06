@@ -26,7 +26,17 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
  color:var(--fg);font-family:inherit;font-size:14px}
 #ara:focus{outline:2px solid var(--accent);outline-offset:-1px}
 #sidelist{padding:8px 10px}
-.sl a{display:block;padding:6px 8px;border-radius:5px;color:var(--muted);font-size:13.2px;line-height:1.42}
+/* Kenar çubuğu satırı 44 px'e çekildi (06.09.2026, kullanıcı kararı).
+   Ölçüldü: telefonda çekmece açıkken 458 satır 30-32 px'ti, yani düzenli
+   dokunulan gezinme hedeflerinin çoğu eşiğin altındaydı. "Liste %25 uzar"
+   itirazı ölçülünce düştü: liste zaten 23.275 px, yani 27 ekran — kimse onu
+   kaydırmıyor, arama kutusuyla süzüyor. Süzülmüş liste 4-58 satır (157-2.231 px)
+   ve orada uzunluk bedeli sıfır, hedef boyu ise HER dokunuşta ödeniyor.
+   min-height + dolgu birlikte: tek satırlık satır 44'e kalkıyor, iki satıra
+   saran satırlar zaten geçiyor ve sarma davranışı değişmesin diye display
+   block kalıyor (flex'e çevirmek span'ları ayrı öge yapıp sarmayı bozardı). */
+.sl a{display:block;padding:12px 8px;min-height:44px;border-radius:5px;
+ color:var(--muted);font-size:13.2px;line-height:1.42}
 .sl a:hover{background:var(--line2);color:var(--accent);text-decoration:none}
 .sl.kpart{margin:14px 0 4px}
 .sl.kpart a{font-size:11.5px;color:var(--accent);font-weight:700}
@@ -614,7 +624,11 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
    Gizli dosya tetikleyicisi (1×1 input[type=file]) dışarıda: kendi düğmesi var. */
 @media screen{
  #araclar button, #araclar select, #araclar input:not([type=file]),
- #arBtn, #tocBtn{ min-height:44px }
+ #arBtn, #tocBtn,
+ /* Kenar çubuğunun kendi denetimleri de: arama kutusu ve kapatma düğmesi.
+    Arama kutusu bu belgenin ASIL gezinme yolu — 644 satırlık liste kimse
+    tarafından kaydırılmıyor, süzülüyor — ve 36 px ölçülüyordu. */
+ #ara, #tocKapat, #araTemizle{ min-height:44px }
  /* Hesap alanları burada DEĞİL: değerleri bicim.py'nin biçem bloğunda üretiliyor
     ve o blok bundan sonra geldiği için buraya yazılan kural ölü kalırdı. */
 }
