@@ -30724,15 +30724,23 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
  });
 
  /* --- cevaplar --- */
+ /* Seçim HATIRLANIR (06.09.2026). Ölçüldü: düğme çalışıyordu (218 -> 0) ama
+    hiçbir yere yazmıyordu, yeniden yükleyince 218'e dönüyordu — dosyayı
+    telefonda her açışta Araçlar'a girmek gerekiyordu. Anahtar, dosyadaki
+    öteki ayarların (ex_nasil_, ex_ipucu_, ex_deste_) kalıbını izler ve
+    derleme damgasını taşır: yeni sürüm ilk açılışta öntanımlıya döner. */
+ var cevapAnahtar='ex_cevap_'+(window.EX_SURUM||'0');
  var cevapAcik=true;
- function cevapAyarla(v){
+ function cevapAyarla(v,yaz){
    cevapAcik=v;
    document.querySelectorAll('details.cevap').forEach(function(d){d.open=v;});
    var b=document.getElementById('cevapKip');
    b.textContent='Cevaplar: '+(v?'açık':'kapalı');
    b.classList.toggle('secili',!v);
+   if(yaz!==false){try{localStorage.setItem(cevapAnahtar,v?'1':'0');}catch(e){}}
  }
  document.getElementById('cevapKip').addEventListener('click',function(){cevapAyarla(!cevapAcik);});
+ try{if(localStorage.getItem(cevapAnahtar)==='0')cevapAyarla(false,false);}catch(e){}
 
  /* --- rastgele --- */
  function rast(secici){
