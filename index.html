@@ -23,7 +23,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
  color:var(--fg);font-family:inherit;font-size:14px}
 #ara:focus{outline:2px solid var(--accent);outline-offset:-1px}
 #sidelist{padding:8px 10px}
-.sl a{display:block;padding:3px 8px;border-radius:5px;color:var(--muted);font-size:13.2px;line-height:1.42}
+.sl a{display:block;padding:6px 8px;border-radius:5px;color:var(--muted);font-size:13.2px;line-height:1.42}
 .sl a:hover{background:var(--line2);color:var(--accent);text-decoration:none}
 .sl.kpart{margin:14px 0 4px}
 .sl.kpart a{font-size:11.5px;color:var(--accent);font-weight:700}
@@ -552,7 +552,11 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
    13 px hepsini kapının üstüne alırdı; sorun o değildi. Kalan 284 bağlantı
    30 px'te, yani kapının AÇIKÇA altında ve kararsız değil.
    Kenar çubuğu telefonda görünmüyor; bu değişiklik yalnız masaüstünü ilgilendirir. */
-@media screen{ .sl a{ padding:6px 8px } }
+/* Değer yukarıda, .sl a kuralının kendisinde (3px -> 6px). Burada AYRI bir
+   kural olarak durmuyordu-durmuyor: aynı dolgunun iki üreticisi olurdu ve
+   @media screen sarmalının da gerekçesi yoktu — kenar çubuğu baskıda zaten
+   display:none. (.tl a'daki sarmalın gerekçesi var: baskı .tl için kendi
+   dolgusunu yazıyor.) */
 
 
 /* ═══════════════ okuma v13 — ölçüt 2 gerçek nüfusa açıldı ═══════════════
@@ -614,12 +618,24 @@ h4{ font-size:15.5px; color:var(--fg); font-weight:700 }
    border-collapse değeri kgtab için BURADA DEĞİL bicim.py'de: aynı seçicili
    kuralı orası daha sonra yazıyor ve buradaki kaybediyordu (ölçüt 41'de aynı
    tuzağa düşülmüştü). Aynı değerin iki üreticisi olmaz. */
+.tblwrap > table{ border-collapse:separate; border-spacing:0 }
+/* border-collapse .kgsar > table'a BURADAN verilmez: o tablolar table.kgtab ve
+   bicim.py .kgblok table.kgtab kuralıyla aynı değeri zaten yazıyor (hem daha
+   özel hem daha sonra). Buraya da yazmak ikinci bir üretici olurdu — üstelik
+   ölü bir üretici, yani ileride buradaki değeri değiştiren kimse hiçbir şeyin
+   değişmediğini görürdü. Dış kenarlık ikisinde de ortak, o aşağıda. */
 .tblwrap > table, .kgsar > table{
-  border-collapse:separate; border-spacing:0;
   border-top:1px solid var(--line); border-left:1px solid var(--line) }
 .tblwrap > table td, .tblwrap > table th,
 .kgsar > table td,   .kgsar > table th{ border-top:0; border-left:0 }
-.tblwrap > table tbody tr, .kgsar > table tbody tr{ background-color:var(--bg) }
+/* :where — ÖZGÜLLÜK SIFIR. Bu kural ilk yazıldığında .tblwrap > table tbody tr
+   (0,1,3) idi ve yukarıdaki tbody tr:nth-child(even) şerit kuralını (0,1,2)
+   eziyordu: ölçüldü, 545 şeritli tablo 0'a düşmüştü ve v15-v17 böyle yayınlandı.
+   Denetim bunu görmedi çünkü şeritleme için ölçüt yok — "denetim geçti" bir
+   ölçütün KAPSAMADIĞI şeyi doğrulamaz. :where ile satır matlığı bir taban
+   olur, şerit kuralı üstünde kazanır. Ölçüldü: şeritli tablo 545, saydam
+   yapışkan hücre 0/4161, ilk sütun sapması -1 (40 kapta) — üçü de korunuyor. */
+:where(.tblwrap,.kgsar) > table tbody tr{ background-color:var(--bg) }
 .tblwrap > table tbody tr > :first-child,
 .kgsar > table tbody tr > :first-child{
   position:sticky; left:0; z-index:2; background:inherit;
@@ -30731,16 +30747,20 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
     derleme damgasını taşır: yeni sürüm ilk açılışta öntanımlıya döner. */
  var cevapAnahtar='ex_cevap_'+(window.EX_SURUM||'0');
  var cevapAcik=true;
- function cevapAyarla(v,yaz){
+ /* Depoya ÇIPLAK setItem ile değil, bu dosyanın kendi oku/yaz'ıyla yazılır:
+    onlar depo engellendiğinde depoVar'ı düşürüyor (uyarı satırı ona bakıyor)
+    ve bellek'e düşerek ayarı oturum boyunca yaşatıyor. İkinci parametrenin adı
+    da 'yaz' değil: o ad yardımcıyı fonksiyonun içinde gölgeliyordu. */
+ function cevapAyarla(v,kaydet){
    cevapAcik=v;
    document.querySelectorAll('details.cevap').forEach(function(d){d.open=v;});
    var b=document.getElementById('cevapKip');
    b.textContent='Cevaplar: '+(v?'açık':'kapalı');
    b.classList.toggle('secili',!v);
-   if(yaz!==false){try{localStorage.setItem(cevapAnahtar,v?'1':'0');}catch(e){}}
+   if(kaydet!==false)yaz(cevapAnahtar,v);
  }
  document.getElementById('cevapKip').addEventListener('click',function(){cevapAyarla(!cevapAcik);});
- try{if(localStorage.getItem(cevapAnahtar)==='0')cevapAyarla(false,false);}catch(e){}
+ if(oku(cevapAnahtar)===false)cevapAyarla(false,false);
 
  /* --- rastgele --- */
  function rast(secici){
@@ -31133,7 +31153,7 @@ Sürüm v001 | 2026-07-24, 21:55 (İstanbul)</p>
  try{
    var dmg=String(window.EX_SURUM||'0');
    Object.keys(localStorage).forEach(function(k){
-     if(/^ex_(nasil|ipucu)_/.test(k)&&k!=='ex_nasil_'+dmg&&k!=='ex_ipucu_'+dmg)localStorage.removeItem(k);
+     if(/^ex_(nasil|ipucu|cevap)_/.test(k)&&k!=='ex_nasil_'+dmg&&k!=='ex_ipucu_'+dmg&&k!=='ex_cevap_'+dmg)localStorage.removeItem(k);
      if(/^ex_katla_/.test(k)&&k.slice(-dmg.length-1)!=='_'+dmg)localStorage.removeItem(k);
    });
  }catch(e){}
