@@ -1096,7 +1096,17 @@ body.suz-favori main>h2{opacity:.5}
  /* Kartın yüzeyi kalkınca içindeki tablo da sayfa rengine döner; yapışkan
     ilk sütun MAT kalmalı, saydam olursa altından metin geçer (kayıt 88). */
  section.kart{--tablo-zemin:var(--bg);--serit:var(--line2)}
- details.cevap{border:0;border-radius:0;padding:10px 14px;
+ /* Bandın genişliği METNE bağlanır, kaba değil. Kart kutusu kalkınca
+    `details.cevap` kabın 736 px'ini alıyordu, metin ise 600'de duruyordu:
+    1280 px'te bandın sağında 99 px DOLU AMA BOŞ alan kalıyor, üstelik
+    `blok-sayilar`/`blok-tuzak` 972'de biterken cevap metni 986'da bitiyor,
+    yani sağ kenarlar 14 px kaçık duruyordu. Kutunun içindeyken göze
+    batmıyordu; tek yüzey kalınca battı (kullanıcı bildirimi 06.09).
+    624 = 600 (ölçüt 6'nın satır ölçüsü kapağı) + 2×12 iç dolgu; -12 px
+    kenarla yüzey metnin İKİ YANINDAN da eşit taşar. 12 ölçüt 26'nın
+    izinli kümesinde; 14 olsaydı ölçeğe yeni sapma eklerdi (kayıt 112). */
+ details.cevap{border:0;border-radius:0;padding:10px 12px;
+  width:calc(100% + 24px);max-width:624px;margin-left:-12px;margin-right:-12px;
   border-top:1px solid var(--kart-cizgi);border-bottom:1px solid var(--kart-cizgi)}
  details.cevap>.cevap-govde{border-left:0;padding-left:0}
 }
