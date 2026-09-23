@@ -7,3 +7,18 @@ Metin, ulusal ve uluslararası kılavuzların derleme tarihindeki geçerli sür�
 Dr. Tacim Yılmaz
 
 İstanbul, 2026
+
+## Depo
+
+Bu depo, çalışma notlarının okuma sürümünün yayın kopyasıdır. Okuma sürümü tek bir `index.html` dosyasıdır; tarayıcıda açılır, sunucu ya da kurulum gerektirmez. Kaynak dosyalar ayrı bir depoda tutulur; buradaki kopya yalnız yayın içindir. Sayfa arama motorlarına kapalıdır (`noindex, nofollow`).
+
+## Envanter
+
+Envanter tarihi: 2026-09-23
+
+"Sürüm", okuma sürümünün son commit özetindeki numaradır (ör. "Okuma v32: …"). "Son değişiklik", dosyada bu depoya yapılan son commit'in tarihidir (`git log -1 -- <dosya>` ile doğrulanabilir). Bu README tabloya alınmamıştır.
+
+| Dosya | Ne taşır | Sürüm | Son değişiklik | Boyut |
+|---|---|---|---|---|
+| `index.html` | Okuma sürümü (15 modül) | v32 | 2026-09-11 | 2.831 KB |
+| `.gitattributes` | Git'in dosya baytlarına dokunmamasını sağlar | — | 2026-08-30 | 786 B |
